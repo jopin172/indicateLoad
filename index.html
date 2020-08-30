@@ -1,0 +1,87 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Indicar Cargando</title>
+
+  <style>
+    .loading {
+      position: fixed;
+      top: 0;
+      left: 0;
+      right: 0;
+      bottom: 0;
+      background-color: rgb(255, 255, 255, 0.7);
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      z-index: 9999;
+      pointer-events: none;
+      transition: 1s all;
+      opacity: 0;
+    }
+
+    .loading.show {
+      opacity: 1;
+      pointer-events: all;
+    }
+
+    .loading .spin {
+      border: 3px solid hsla(180, 5%, 4%, 0.2);
+      border-top-color: #056f79;
+      border-radius: 50%;
+      width: 3em;
+      height: 3em;
+      animation: spin 1s linear infinite;
+    }
+
+    @keyframes spin {
+      to {
+        transform: rotate(360deg);
+      }
+    }
+  </style>
+
+</head>
+
+<body>
+  <!-- Por defecto se muestra la capa del loading -->
+  <div id="loadlayer" class="loading show">
+    <div class="spin"></div>
+  </div>
+
+  <!-- Es recomendable colocar debajo de él todo el resto del contenido de la página -->
+
+  <h1>Esto es un título</h1>
+  <p>Lorem ipsum dolor sit amet, consectetur adipisicing elit. Asperiores quasi totam adipisci non quaerat, vitae
+    sapiente a rerum explicabo minus magnam, eos cum officia ipsam ad amet nihil obcaecati dolores?</p>
+
+  <br><br>
+
+  <!-- 
+    Al hacer click en el botón activa nuevamente el loding, llamando la función indicateLoad()
+    esto es una muestra que podemos reutilizarla si queremos que el usuario espere a que finalice el 
+    proceso que se inicia después que haga click en un link o al enviar un form que se ejecuten a través de ajax
+    => Luego para finalizarla lo hace una vez que finalice la tarea llamando a la función loadReady()
+  -->
+  <a href="#" id="btn">Activar Carga</a>
+
+  <script>
+    document.getElementById("btn").addEventListener('click', indicateLoad);
+    var loadlayer = document.getElementById("loadlayer");
+    function indicateLoad() {
+      loadlayer.classList.add('show');
+    }
+    function loadReady() {
+      document.addEventListener("DOMContentLoaded", function (event) {
+        loadlayer.classList.remove('show');
+      });
+    }
+    loadReady();
+
+  </script>
+</body>
+
+</html>
